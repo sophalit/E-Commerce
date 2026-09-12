@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technology Shop Product Catalogue | CSS Grid Masterclass</title>
+  <meta name="description" content="កាតាឡុកផលិតផលបច្ចេកវិទ្យាគំរូ បង្កើតឡើងដោយប្រើ CSS Grid Layout (grid-template-areas, auto-fit minmax, nested grid) និង Vanilla JavaScript។" />
+  <meta property="og:title" content="Technology Shop Product Catalogue | CSS Grid Masterclass" />
+  <meta property="og:description" content="កាតាឡុកផលិតផលបច្ចេកវិទ្យាគំរូ បង្កើតឡើងដោយប្រើ CSS Grid Layout និង Vanilla JavaScript។" />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts: Kantumruy Pro (Khmer) & Plus Jakarta Sans (Latin) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core CSS Grid Stylesheet -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- ====================================================================
+       PAGE LAYOUT CONTAINER: CSS Grid
+       grid-template-areas:
+         "header  header"
+         "sidebar main"
+         "footer  footer"
+       ==================================================================== -->
+  <div class="site-layout" id="siteLayout">
+
+    <!-- 1. HEADER SECTION (grid-area: header) -->
+    <header class="site-header" id="mainHeader">
+      <div class="header-inner">
+        <!-- Brand / Shop Name -->
+        <a href="#catalogue" class="brand-area" id="brandLogoLink" aria-label="TechZone Cambodia ទំព័រដើម">
+          <div class="brand-logo" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-title">TechZone Cambodia</div>
+            <div class="brand-subtitle">ហាងបច្ចេកវិទ្យា & គ្រឿងអេឡិចត្រូនិច</div>
+          </div>
+        </a>
+
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="search" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="ស្វែងរកតាមឈ្មោះផលិតផល ឬលក្ខណៈបច្ចេកទេស..." 
+            aria-label="ស្វែងរកផលិតផល"
+            autocomplete="off"
+          />
+          <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="សម្អាតពាក្យស្វែងរក">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Header Actions: Instructor Lesson & Cart Counter -->
+        <div class="header-actions">
+          <button type="button" class="instructor-badge-btn" id="openGuideBtn" title="មើលការពន្យល់ CSS Grid និងលំហាត់អនុវត្ត">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>មេរៀន Grid & លំហាត់</span>
+          </button>
+
+          <button type="button" class="cart-toggle-btn" id="cartToggleBtn" aria-label="បើកកន្ត្រកទំនិញ">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span>កន្ត្រក</span>
+            <span class="cart-counter-badge" id="cartCounter">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3. SIDEBAR FILTERS (grid-area: sidebar) -->
+    <aside class="site-sidebar" id="sidebarFilters" aria-label="តម្រងស្វែងរកផលិតផល">
+      <div class="sidebar-sticky-wrap">
+        <div class="filter-header">
+          <div class="filter-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            <span>តម្រងស្វែងរក</span>
+          </div>
+          <button type="button" class="reset-filter-btn" id="resetFiltersBtn">កំណត់ឡើងវិញ</button>
+        </div>
+
+        <!-- Filter 1: Category -->
+        <div class="filter-group">
+          <label class="filter-group-title" id="categoryHeading">ប្រភេទផលិតផល</label>
+          <ul class="category-list" role="radiogroup" aria-labelledby="categoryHeading">
+            <li>
+              <label class="category-radio-label active">
+                <span style="display: flex; align-items: center;">
+                  <input type="radio" name="categoryFilter" value="all" checked />
+                  ទាំងអស់
+                </span>
+                <span class="category-count">12</span>
+              </label>
+            </li>
+            <li>
+              <label class="category-radio-label">
+                <span style="display: flex; align-items: center;">
+                  <input type="radio" name="categoryFilter" value="laptops" />
+                  កុំព្យូទ័រយួរដៃ
+                </span>
+                <span class="category-count">2</span>
+              </label>
+            </li>
+            <li>
+              <label class="category-radio-label">
+                <span style="display: flex; align-items: center;">
+                  <input type="radio" name="categoryFilter" value="smartphones" />
+                  ស្មាតហ្វូន
+                </span>
+                <span class="category-count">2</span>
+              </label>
+            </li>
+            <li>
+              <label class="category-radio-label">
+                <span style="display: flex; align-items: center;">
+                  <input type="radio" name="categoryFilter" value="audio" />
+                  ឧបករណ៍សំឡេង
+                </span>
+                <span class="category-count">3</span>
+              </label>
+            </li>
+            <li>
+              <label class="category-radio-label">
+                <span style="display: flex; align-items: center;">
+                  <input type="radio" name="categoryFilter" value="wearables" />
+                  ឧបករណ៍ពាក់ឆ្លាតវៃ
+                </span>
+                <span class="category-count">2</span>
+              </label>
+            </li>
+            <li>
+              <label class="category-radio-label">
+                <span style="display: flex; align-items: center;">
+                  <input type="radio" name="categoryFilter" value="accessories" />
+                  គ្រឿងសម្ភារៈ
+                </span>
+                <span class="category-count">3</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Filter 2: Max Price -->
+        <div class="filter-group">
+          <label class="filter-group-title" for="priceRangeInput">តម្លៃអតិបរមា</label>
+          <div class="price-slider-wrap">
+            <div class="price-display-box">
+              <span style="color: var(--text-muted);">ត្រឹម៖</span>
+              <span class="price-max-val" id="priceDisplay">$2,000</span>
+            </div>
+            <input 
+              type="range" 
+              id="priceRangeInput" 
+              class="price-range-input" 
+              min="30" 
+              max="2000" 
+              step="10" 
+              value="2000" 
+              aria-label="ជ្រើសរើសតម្លៃអតិបរមា"
+            />
+            <div class="price-hints">
+              <span>$30</span>
+              <span>$1,000</span>
+              <span>$2,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS Grid Teacher Callout -->
+        <div class="grid-inspector-callout" role="complementary" aria-label="គន្លឹះ CSS Grid">
+          <strong>💡 CSS Grid Note:</strong>
+          Sidebar នេះកំណត់ទំហំ <code>240px</code> នៅលើ Desktop ហើយផ្លាស់ប្ដូរទៅលើ Main នៅលើ Mobile តាមរយៈ <code>grid-template-areas</code>។
+        </div>
+      </div>
+    </aside>
+
+    <!-- 5. MAIN CONTENT AREA (grid-area: main) -->
+    <main class="site-main" id="mainContent">
+
+      <!-- 2. Page Intro Section -->
+      <section class="page-intro" aria-labelledby="introTitle">
+        <span class="page-intro-badge">CSS Grid E-Commerce Architecture</span>
+        <h1 class="page-intro-title" id="introTitle">កាតាឡុកផលិតផលបច្ចេកវិទ្យាទំនើប</h1>
+        <p class="page-intro-desc">
+          ស្វែងរក និងជ្រើសរើសគ្រឿងបច្ចេកវិទ្យាគុណភាពខ្ពស់ ជាមួយប្រព័ន្ធ CSS Grid Layout ពេញលេញ រួមបញ្ចូលទាំង Search, Multi-Filter, Sorting និង Cart Summary។
+        </p>
+        <div class="sample-notice-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>ព័ត៌មាន និងតម្លៃផលិតផលទាំងអស់នៅលើគេហទំព័រនេះ គឺជាទិន្នន័យគំរូសម្រាប់សិក្សា</span>
+        </div>
+      </section>
+
+      <!-- 4. Toolbar: Count & Sort Options -->
+      <section class="catalogue-toolbar" aria-label="របារឧបករណ៍គ្រប់គ្រងលទ្ធផល">
+        <div class="toolbar-stats">
+          <span>បង្ហាញ</span>
+          <span class="results-badge" id="resultsCount">12</span>
+          <span>ក្នុងចំណោម <strong id="totalCatalogueCount">12</strong> ផលិតផល</span>
+        </div>
+
+        <div class="toolbar-controls">
+          <label for="sortSelect" class="sort-label">តម្រៀបតាម៖</label>
+          <select id="sortSelect" class="sort-select" aria-label="ជ្រើសរើសលំដាប់តម្រៀប">
+            <option value="default">លំនាំដើម (ផលិតផលណែនាំ)</option>
+            <option value="price-low-high">តម្លៃ៖ ពីទាប ទៅ ខ្ពស់ ($ → $$$)</option>
+            <option value="price-high-low">តម្លៃ៖ ពីខ្ពស់ ទៅ ទាប ($$$ → $)</option>
+            <option value="name-az">ឈ្មោះផលិតផល៖ A ដល់ Z</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- 5. Product Grid Section -->
+      <!-- CSS Grid: repeat(auto-fit, minmax(min(100%, 220px), 1fr)) -->
+      <section 
+        class="product-grid" 
+        id="productGrid" 
+        aria-live="polite" 
+        aria-label="បញ្ជីផលិតផលបច្ចេកវិទ្យា"
+      >
+        <!-- Injected Dynamically by script.js -->
+      </section>
+    </main>
+
+    <!-- 7. FOOTER SECTION (grid-area: footer) -->
+    <footer class="site-footer" id="siteFooter">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h3>TechZone Cambodia</h3>
+          <p>
+            គេហទំព័របង្ហាញគំរូ Layout បច្ចេកវិទ្យាទំនើបសម្រាប់អ្នកសិក្សា Front-End Development។ រចនាឡើងដោយប្រើ CSS Grid Architecture (Page Template Areas, Auto-fit Minmax, Nested Card Grid)។
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>បច្ចេកវិទ្យាប្រើប្រាស់</h4>
+          <ul class="footer-links">
+            <li><a href="#catalogue">Semantic HTML5</a></li>
+            <li><a href="#catalogue">CSS Grid Level 1 & 2</a></li>
+            <li><a href="#catalogue">Vanilla JavaScript (ES6+)</a></li>
+            <li><a href="#catalogue">Responsive Mobile First</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>ជំនួយ & សិក្សា</h4>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" onclick="document.getElementById('openGuideBtn').click()">មេរៀន Grid & លំហាត់ ៣</a></li>
+            <li><a href="#catalogue">Grid Template Areas</a></li>
+            <li><a href="#catalogue">Auto-fit vs Auto-fill</a></li>
+            <li><a href="#catalogue">Nested Grid Alignment</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 TechZone Cambodia - All Sample Rights Reserved.</span>
+        <span class="footer-tag">Layout: CSS Grid 240px + minmax(0, 1fr)</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 6. CART SUMMARY DRAWER (Slide-in) -->
+  <div class="cart-drawer-overlay" id="cartOverlay" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="កន្ត្រកទំនិញរបស់អ្នក" role="dialog" aria-modal="true">
+    <div class="cart-header">
+      <div class="cart-header-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span>កន្ត្រកទំនិញរបស់អ្នក</span>
+      </div>
+      <button type="button" class="btn-close-cart" id="closeCartBtn" aria-label="បិទកន្ត្រក">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cart-items-body" id="cartItemsBody">
+      <!-- Injected Dynamically by script.js -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-summary-line">
+        <span>ចំនួនឯកតាសរុប៖</span>
+        <strong id="cartSubtotalUnits">0 ឯកតា</strong>
+      </div>
+      <div class="cart-total-line">
+        <span>តម្លៃសរុប៖</span>
+        <strong class="cart-total-amount" id="cartTotalPrice">$0</strong>
+      </div>
+      <div class="cart-demo-notice">
+        ⚠️ នេះជាប្រព័ន្ធសាកល្បងគំរូ មិនមានការទូទាត់ប្រាក់ពិតប្រាកដ ឬកាត់ប្រាក់ពីកាតធនាគារឡើយ។
+      </div>
+      <div class="cart-footer-buttons">
+        <button type="button" class="btn-clear-cart" id="clearCartBtn">សម្អាត</button>
+        <button type="button" class="btn-demo-checkout" id="demoCheckoutBtn">បញ្ជាទិញគំរូ</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- INSTRUCTOR GUIDE MODAL (CSS Grid Education & 3 Exercises) -->
+  <div class="instructor-modal-overlay" id="instructorModalOverlay" role="dialog" aria-modal="true" aria-labelledby="instructorModalTitle">
+    <div class="instructor-modal">
+      <div class="instructor-header">
+        <h2 id="instructorModalTitle">📘 មេរៀន CSS Grid & លំហាត់អនុវត្ត (CSS Grid Instructor)</h2>
+        <button type="button" class="btn-close-cart" id="closeGuideBtn" aria-label="បិទផ្ទាំងមេរៀន">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Section 1: Page Grid Explanation -->
+      <div class="lesson-section">
+        <h3>១. ការពន្យល់ Page Grid (grid-template-areas)</h3>
+        <p>
+          នៅលើ Desktop យើងប្រើប្រាស់ <code>grid-template-columns: 240px minmax(0, 1fr)</code> ដើម្បីកំណត់ Sidebar ទទឹង 240px ថេរ និង Main Content ពង្រីកបត់បែនតាមផ្ទៃអេក្រង់។ តាមរយៈ <code>grid-template-areas</code> យើងផ្គុំប្លង់ទំព័រយ៉ាងច្បាស់លាស់៖
+        </p>
+        <pre class="code-snippet"><code>.site-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "footer  footer";
+}
+
+/* លើ Mobile (max-width: 880px): ប្ដូរទៅ 1 column */
+@media (max-width: 880px) {
+  .site-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+  }
+}</code></pre>
+        <p>
+          <strong>ហេតុអ្វីប្រើ <code>minmax(0, 1fr)</code> ជំនួស <code>1fr</code> សុទ្ធ?</strong><br>
+          ដោយសារនៅក្នុង CSS Grid ទំហំដើម (min-content) របស់ grid item គឺ <code>auto</code>។ ប្រសិនបើយើងប្រើត្រឹម <code>1fr</code> ពេលមានរូបភាព ឬអក្សរវែងខ្លាំង Main អាចរីកលើសទទឹងបង្ក horizontal scrollbar។ ការដាក់ <code>minmax(0, 1fr)</code> បង្ខំឱ្យ min-width ចាប់ផ្ដើមពី 0 ធានាគ្មានការរុញអេក្រង់។
+        </p>
+      </div>
+
+      <!-- Section 2: Product Grid Explanation -->
+      <div class="lesson-section">
+        <h3>២. ការពន្យល់ Product Grid & Nested Card Grid</h3>
+        <p>
+          យើងប្រើប្រាស់រូបមន្តទំនើបបំផុតរបស់ CSS Grid សម្រាប់ Product Listing៖
+        </p>
+        <pre class="code-snippet"><code>.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 24px;
+}</code></pre>
+        <p>
+          <strong>វិភាគកូដ៖</strong><br>
+          • <code>repeat(auto-fit, ...)</code>៖ បង្កើតចំនួន Column ដោយស្វ័យប្រវត្តិតាមទទឹងអេក្រង់។ បើអេក្រង់ធំ មាន column ច្រើន, បើអេក្រង់តូច វានឹងទម្លាក់ចុះក្រោមដោយមិនបាច់សរសេរ media query ច្រើនជាន់។<br>
+          • <code>min(100%, 220px)</code>៖ ការពារបញ្ហាអេក្រង់ទូរស័ព្ទតូចជាង 220px (ឧទាហរណ៍អេក្រង់ចាស់ៗ)។ វានឹងយក 100% ប្រសិនបើទំហំតូចជាង 220px。<br>
+          • <strong>Nested Grid នៅក្នុង Card៖</strong> កាតផលិតផលនីមួយៗប្រើ <code>display: grid; grid-template-rows: 180px auto 1fr auto auto;</code> ធ្វើឱ្យរូបភាព, ចំណងជើង, តម្លៃ និងប៊ូតុងតម្រង់ជួរត្រង់ស្មើគ្នាគ្រប់កាតទាំងអស់ ទោះបីជាចំណងជើងមានប្រវែងខ្លីឬវែងខុសគ្នាក៏ដោយ!
+        </p>
+      </div>
+
+      <!-- Section 3: 3 Educational Exercises -->
+      <div class="lesson-section">
+        <h3>៣. លំហាត់អនុវត្ត ៣ (CSS Grid Exercises)</h3>
+        
+        <div class="exercise-card">
+          <h4>លំហាត់ទី ១៖ បន្ថែម Banner ពិសេសតាមរយៈ Grid Area</h4>
+          <p>
+            <strong>កិច្ចការ៖</strong> កែសម្រួល <code>grid-template-areas</code> នៅក្នុង <code>.site-layout</code> ដោយបន្ថែម Area ថ្មីឈ្មោះថា <code>"banner"</code> នៅចន្លោះ Header និង Sidebar/Main។ បង្កើត HTML <code>&lt;div class="promo-banner"&gt;</code> និងកំណត់ <code>grid-area: banner;</code> ដើម្បីបង្ហាញការបញ្ចុះតម្លៃពិសេស។
+          </p>
+        </div>
+
+        <div class="exercise-card">
+          <h4>លំហាត់ទី ២៖ សាកល្បង <code>auto-fill</code> ប្រៀបធៀបជាមួយ <code>auto-fit</code></h4>
+          <p>
+            <strong>កិច្ចការ៖</strong> ផ្លាស់ប្ដូរ <code>repeat(auto-fit, ...)</code> ទៅជា <code>repeat(auto-fill, ...)</code> នៅក្នុង <code>.product-grid</code>។ បន្ទាប់មកសាកល្បង Filter រើសប្រភេទដែលមានផលិតផលតែ ២។ តើអ្នកសង្កេតឃើញភាពខុសគ្នាយ៉ាងណាលើទំហំ Card? (គន្លឹះ៖ <code>auto-fit</code> នឹងពង្រីក Card ឱ្យពេញផ្ទៃ, រីឯ <code>auto-fill</code> រក្សាទំហំជួរឈរទទេ)។
+          </p>
+        </div>
+
+        <div class="exercise-card">
+          <h4>លំហាត់ទី ៣៖ បង្កើត Badge "NEW" ដោយប្រើ Grid Line Positioning</h4>
+          <p>
+            <strong>កិច្ចការ៖</strong> នៅក្នុង <code>.product-card</code> ជំនួសការប្រើ <code>position: absolute</code> ដោយបង្កើត Grid Row/Column ជាន់គ្នា (Grid Item Stacking) សម្រាប់ Image និង Badge តាមរយៈ <code>grid-row: 1; grid-column: 1;</code> និងប្រើ <code>align-self: start; justify-self: start;</code>។
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vanilla JavaScript Entry Point -->
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "Technology Shop Product Catalogue",
+  "description": "កាតាឡុកផលិតផលបច្ចេកវិទ្យាគំរូ បង្កើតឡើងដោយប្រើ CSS Grid (grid-template-areas, auto-fit minmax, nested grid) និង Vanilla JavaScript សម្រាប់ Search, Filter, Sort និង Cart។",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
